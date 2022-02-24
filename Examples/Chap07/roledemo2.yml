@@ -1,0 +1,20 @@
+- name: Role test
+  hosts: localhost
+
+  post_tasks:
+    - name: this is a post task should run last even when it is defined at the top
+      debug:
+        msg: I am post task will run last
+  
+  roles:
+    - redhat.webserver
+
+  tasks:
+    - name: A normal task 
+      debug:
+        msg: i am a normal task which will get executed after the role
+
+  pre_tasks:
+    - name: I am pre-task defined at the bottom but will execute first
+      debug:
+        msg: I am pre taask

@@ -1,0 +1,12 @@
+Use case:
+Scan through the hosts in inventory to see how many are ping-able and have the report generated in a csv format.Site administrator goes through the report and adds a flag if a host needs to be configured to acccept pings.
+The flag is to be enabled in an appropriate column in the csv file.
+
+Solution:
+2 play books are used.
+1. To generate the csv report, locally on the control node.
+2. A playbook to scan through the flags set by admin, based on which the host is configured to respond to ICMP pings. 
+
+Playbooks tested on:
+ansible 2.0.1.0
+ansible-tower-2.4.5-1

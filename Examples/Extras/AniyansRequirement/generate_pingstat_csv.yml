@@ -1,0 +1,38 @@
+- name: Play to clean up older report
+  hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Clean up the csv file from previous run
+    file:
+      dest: /tmp/pingstat.csv
+      state: absent
+
+  - name: Create a fresh csv file with header
+    lineinfile:
+      dest: /tmp/pingstat.csv
+      create: yes
+      insertbefore: BOF
+      line: 'Hostname : PingRC : Enable_Ping?'
+      state: present
+
+- name: Play to update the csv file with current ping status
+  gather_facts: no
+  hosts: all
+  tasks:
+  - name: Task to run the ping command
+    command: "/usr/bin/ping -c 2 {{inventory_hostname}}"
+    register: ping_out
+    delegate_to: localhost
+    ignore_errors: yes
+    no_log: True
+
+#  - debug:
+#      var: ping_out.rc
+
+  - name: Append a line per host with ping status info.
+    lineinfile:
+      dest: /tmp/pingstat.csv
+      state: present
+      insertafter: EOF
+      line: '{{inventory_hostname}}:{{ping_out.rc}}:'
+    delegate_to: localhost

@@ -1,0 +1,10 @@
+Playbooks to demo usage of ansible-vault.
+Sensitive information maintained in encyrpted file.
+
+Usage:
+
+#ansible-playbook 02-no_log_example.yml --ask-vault-pass 
+
+
+#ansible-playbook 02-playbook.yml --vault-password-file=vpass 
+

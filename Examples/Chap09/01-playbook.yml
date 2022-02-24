@@ -1,0 +1,16 @@
+---
+- hosts: remote
+  vars:
+    newusers:
+      - user1
+      - user2
+    shell: /bin/bash
+    password: redhat
+  tasks:
+  - name: Create new users on remote servers.
+    user:
+      name: "{{item}}"
+      password: "{{ password | password_hash('sha512')}}"
+      shell: "{{shell}}"
+    with_items: "{{newusers}}"
+

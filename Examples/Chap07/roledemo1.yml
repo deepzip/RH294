@@ -1,0 +1,10 @@
+- name: Role test
+  hosts: localhost
+  
+  tasks:
+    - name: print this task
+      debug:
+        msg: "The task gets printed before/after roles lets see"
+
+  roles:
+    - redhat.webserver

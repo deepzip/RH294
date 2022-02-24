@@ -1,0 +1,17 @@
+- name: Play to look up csv and fix the hosts to respond to ping.
+  hosts: all
+  gather_facts: no
+  tasks:
+  - name: Look for Enable_Ping? flag in the csv file
+    vars:
+      enable: "{{lookup('csvfile','{{inventory_hostname}} file=/tmp/pingstat.csv delimiter=: col=2') }}"
+    debug:
+      var: enable
+    register: pingstat
+    delegate_to: localhost
+
+  - name: Run command on relevant hosts to fix ping response.
+  # Replace the command below with an appropriate one.
+    shell: echo "This server is now made pingable" > /tmp/pingenable.log
+    when: pingstat.enable == "1"
+    
